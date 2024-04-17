@@ -1,6 +1,6 @@
 # Party Invites
 
-This is one of the first Project written in ASP.NET Core MVC. his project is designed to manage guest responses for a party invitation. Users can submit their RSVP along with their name, email address, phone number, and whether they will attend the party or not.
+This is one of the first Project written in ASP.NET Core MVC. This project is designed to manage guest responses for a party invitation. Users can submit their RSVP along with their name, email address, phone number, and whether they will attend the party or not.
 
 # Table of Contents
 
