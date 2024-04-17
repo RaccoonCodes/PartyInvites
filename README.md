@@ -2,6 +2,22 @@
 
 This is one of the first Project written in ASP.NET Core MVC. his project is designed to manage guest responses for a party invitation. Users can submit their RSVP along with their name, email address, phone number, and whether they will attend the party or not.
 
+# Table of Contents
+
+1. [Getting Started](#getting-started)
+2. [Models](#models)
+    - [GuestResponse.cs](#guestresponsecs)
+    - [Repository.cs](#repositorycs)
+3. [Views](#views)
+    - [Index.cshtml](#indexcshtml)
+    - [RsvpForm.cshtml](#rsvpformcshtml)
+    - [Thanks.cshtml](#thankscshtml)
+    - [ListResponses.cshtml](#listresponsescshtml)
+    - [_Layout.cshtml](#_layoutcshtml)
+4. [Controllers](#controllers)
+    - [HomeController](#homecontroller)
+
+
 ## Getting Started
 To use this project, Clone the repository and run it in Visual Studio or your preferred development environment. Once running, users can access the party invites form to submit their RSVP.
 
@@ -143,4 +159,96 @@ This page shows a thank you page that, depending if the user will attend, will d
 
 ### _Layout.cshtml
 
-** CHANGES IN PROGRESS
+#### Header
+```cshtml
+<header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PartyInvites</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+```
+- The <header> section contains the navigation bar for the website.
+- The navigation bar is created using Bootstrap classes for styling and responsiveness.
+- It includes a brand logo (navbar-brand) linking to the home page and navigation links (nav-link) for the home page and privacy page.
+
+#### Container class
+```cshtml
+<div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+```
+- The "@RenderBody()" is a Razor syntax that renders the content of the views within the layout. It acts like a placeholder where the content of each view will be placed.
+
+#### Scripts
+```chtml
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+```
+- The <script> tags include JavaScript files for jQuery, Bootstrap, and any custom scripts used in the application.
+- asp-append-version="true" ensures that the browser requests the latest version of the script files when they are updated.
+- @await RenderSectionAsync("Scripts", required: false) renders any additional script sections defined in each views. This allows for views to include additional scripts specific to their functionality.
+
+## Controllers
+### HomeController
+```csharp
+public class HomeController : Controller
+{
+
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    public ViewResult RsvpForm()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public ViewResult RsvpForm(GuestResponse guestResponse)
+    {
+        if (ModelState.IsValid)
+        {
+            Repository.AddResponse(guestResponse);
+            return View("Thanks", guestResponse);
+        }
+        else
+        {
+            return View();
+        }
+
+    }
+    public ViewResult ListResponses()
+    {
+        return View(Repository.Responses.Where(r => r.WillAttend == true));
+    }
+}
+```
+
+#### RsvpForm(GuestResponse guestResponse)
+Validates the form data using ModelState. If the form data is valid, adds the guest response to the repository and redirects to the Thanks view.If the form data is invalid, re-renders the RsvpForm view with validation errors.
+
+#### ListResponses()
+Renders a list of guests who have confirmed their attendance.It also filters the responses to include only those who will attend the party and then returns the ListResponses view.
