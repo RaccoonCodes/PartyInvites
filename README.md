@@ -16,6 +16,7 @@ This is one of the first Project written in ASP.NET Core MVC. his project is des
     - [_Layout.cshtml](#_layoutcshtml)
 4. [Controllers](#controllers)
     - [HomeController](#homecontroller)
+5. [Summary](#summary)
 
 
 ## Getting Started
@@ -252,3 +253,11 @@ Validates the form data using ModelState. If the form data is valid, adds the gu
 
 #### ListResponses()
 Renders a list of guests who have confirmed their attendance.It also filters the responses to include only those who will attend the party and then returns the ListResponses view.
+
+## Summary
+This project is a simple ASP.NET Core MVC application designed to manage guest responses for a party invitation. Users can submit their RSVPs along with their name, email address, phone number, and whether they will attend the party or not. 
+
+The project includes models for guest responses and a repository to store the responses. Views are provided for capturing RSVPs, displaying a thank you message, and listing attendees. Additionally, a layout file is used for consistent styling and navigation. The HomeController handles user requests, including displaying the home page, capturing RSVPs, and listing attendees. 
+
+Overall, Party Invites is a simple project that shows what ASP.NET Core MVC is Capable of doing.
+
